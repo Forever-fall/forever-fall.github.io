@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-02-22T07:26:26.301Z</updated>
+  <updated>2024-02-22T15:58:50.000Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>备份hexo</title>
+    <link href="http://example.com/2024/02/22/%E5%A4%87%E4%BB%BDhexo/"/>
+    <id>http://example.com/2024/02/22/%E5%A4%87%E4%BB%BDhexo/</id>
+    <published>2024-02-23T07:17:12.000Z</published>
+    <updated>2024-02-22T15:58:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="备份hexo"><a href="#备份hexo" class="headerlink" title="备份hexo"></a>备份hexo</h3><p>若项目部署在github上使用gitpage访问，可以在项目设置页面pages设置指定的分支，比如mastar分支用来部署博客<br>此时可以在创建一个分支hexo_source，用来存放源码</p><p>这样就实现了网站和源码的备份，即使本地的代码丢失，github上也有源码，重新clone一份就可以了<br>而且还方便了在不同地方进行写作，只需要每次写作前先pull一下源码即可。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;备份hexo&quot;&gt;&lt;a href=&quot;#备份hexo&quot; class=&quot;headerlink&quot; title=&quot;备份hexo&quot;&gt;&lt;/a&gt;备份hexo&lt;/h3&gt;&lt;p&gt;若项目部署在github上使用gitpage访问，可以在项目设置页面pages设置指定的分支，比如masta</summary>
+      
+    
+    
+    
+    <category term="Knowledge" scheme="http://example.com/categories/Knowledge/"/>
+    
+    
+    <category term="hexo" scheme="http://example.com/tags/hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>linuxshell</title>
