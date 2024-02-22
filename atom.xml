@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>foreverfallのblog</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2024-02-22T07:26:26.301Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>John Doe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linuxshell</title>
+    <link href="http://example.com/2024/02/21/%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
+    <id>http://example.com/2024/02/21/%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/</id>
+    <published>2024-02-22T07:26:26.301Z</published>
+    <updated>2024-02-22T07:26:26.301Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$1</span>&quot;</span> == <span class="string">&quot;-h&quot;</span> || <span class="string">&quot;<span class="variable">$1</span>&quot;</span> == <span class="string">&quot;--help&quot;</span> || <span class="variable">$#</span> -eq 0 ]]; <span class="keyword">then</span></span><br><span class="line">    usage</span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><p>bash中，使用双方括号<code>[[ xx ]]</code> 可以获得更多的特性，[[ 是bash中的关键字</p><p> 使用双方括号，变量和参数可以不加双引号</p><p>整数判断：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a -eq b <span class="comment">#判断a与b是否相等</span></span><br><span class="line">a -ne b <span class="comment">#判断a与b是否不等</span></span><br><span class="line">a -gt b <span class="comment">#判断a是否大于b</span></span><br><span class="line">a -lt b <span class="comment">#判断a是否小于b</span></span><br><span class="line">a -ge b <span class="comment">#判断a是否大于等于b</span></span><br><span class="line">a -le b <span class="comment">#判断a是否小于等于b</span></span><br></pre></td></tr></table></figure><p>示例：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a=1</span><br><span class="line"><span class="keyword">if</span> [[ a -eq 1 ]]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;yes&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;no&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><p>字符串判断：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-z <span class="string">&quot;<span class="variable">$XXX</span>&quot;</span> <span class="comment">#XXX是否为空</span></span><br><span class="line">-n <span class="string">&quot;<span class="variable">$XXX</span>&quot;</span> <span class="comment">#XXX是否非空</span></span><br><span class="line"><span class="string">&quot;a&quot;</span> == <span class="string">&quot;b&quot;</span> <span class="comment">#a与b是否一致</span></span><br><span class="line"><span class="string">&quot;a&quot;</span> != <span class="string">&quot;b&quot;</span> <span class="comment">#a与b是否不一致</span></span><br></pre></td></tr></table></figure><p>示例：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">name=<span class="string">&quot;a&quot;</span></span><br><span class="line"><span class="keyword">if</span> [[ -z <span class="string">&quot;<span class="variable">$name</span>&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;null&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;not null&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure><p>在使用双方括号时，引用变量name时可以不加引号或使用单引号</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;条件判断&quot;&gt;&lt;a href=&quot;#条件判断&quot; class=&quot;headerlink&quot; title=&quot;条件判断&quot;&gt;&lt;/a&gt;条件判断&lt;/h1&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre</summary>
+      
+    
+    
+    
+    <category term="Knowledge" scheme="http://example.com/categories/Knowledge/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>helloworld</title>
+    <link href="http://example.com/2024/02/21/helloworld/"/>
+    <id>http://example.com/2024/02/21/helloworld/</id>
+    <published>2024-02-22T05:46:12.000Z</published>
+    <updated>2024-02-22T07:24:25.206Z</updated>
+    
+    <content type="html"><![CDATA[<p>hi~</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;hi~&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="Knowledge" scheme="http://example.com/categories/Knowledge/"/>
+    
+    
+    <category term="test" scheme="http://example.com/tags/test/"/>
+    
+  </entry>
+  
+</feed>
