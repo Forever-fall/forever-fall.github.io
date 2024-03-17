@@ -1,94 +1,113 @@
-(function($){
-    var toTop = ($('#sidebar').height() - $(window).height()) + 60;
-    // Caption
-    $('.article-entry').each(function(i) {
-        $(this).find('img').each(function() {
-            if (this.alt && !(!!$.prototype.justifiedGallery && $(this).parent('.justified-gallery').length)) {
-                $(this).after('<span class="caption">' + this.alt + '</span>');
-            }
+/**
+ * Sets up Justified Gallery.
+ */
+if (!!$.prototype.justifiedGallery) {
+  var options = {
+    rowHeight: 140,
+    margins: 4,
+    lastRow: "justify"
+  };
+  $(".article-gallery").justifiedGallery(options);
+}
 
-            // 对于已经包含在链接内的图片不适用lightGallery
-            if ($(this).parent().prop("tagName") !== 'A') {
-                $(this).wrap('<a href="' + this.src + '" title="' + this.alt + '" class="gallery-item"></a>');
-            }
-        });
-    });
-    if (lightGallery) {
-        var options = {
-            selector: '.gallery-item',
-        };
-        $('.article-entry').each(function(i, entry) {
-            lightGallery(entry, options);
-        });
-        lightGallery($('.article-gallery')[0], options);
-    }
-    if (!!$.prototype.justifiedGallery) {  // if justifiedGallery method is defined
-        var options = {
-            rowHeight: 140,
-            margins: 4,
-            lastRow: 'justify'
-        };
-        $('.justified-gallery').justifiedGallery(options);
+$(document).ready(function() {
+
+  /**
+   * Shows the responsive navigation menu on mobile.
+   */
+  $("#header > #nav > ul > .icon").click(function() {
+    $("#header > #nav > ul").toggleClass("responsive");
+  });
+
+
+  /**
+   * Controls the different versions of  the menu in blog post articles 
+   * for Desktop, tablet and mobile.
+   */
+  if ($(".post").length) {
+    var menu = $("#menu");
+    var nav = $("#menu > #nav");
+    var menuIcon = $("#menu-icon, #menu-icon-tablet");
+
+    /**
+     * Display the menu on hi-res laptops and desktops.
+     */
+    if ($(document).width() >= 1440) {
+      menu.show();
+      menuIcon.addClass("active");
     }
 
-    // Profile card
-    $(document).on('click', function () {
-        $('#profile').removeClass('card');
-    }).on('click', '#profile-anchor', function (e) {
-        e.stopPropagation();
-        $('#profile').toggleClass('card');
-    }).on('click', '.profile-inner', function (e) {
-        e.stopPropagation();
+    /**
+     * Display the menu if the menu icon is clicked.
+     */
+    menuIcon.click(function() {
+      if (menu.is(":hidden")) {
+        menu.show();
+        menuIcon.addClass("active");
+      } else {
+        menu.hide();
+        menuIcon.removeClass("active");
+      }
+      return false;
     });
 
-    // To Top
-    if ($('#sidebar').length) {
-        $(document).on('scroll', function () {
-            if ($(document).width() >= 800) {
-                if(($(this).scrollTop() > toTop) && ($(this).scrollTop() > 0)) {
-                    $('#toTop').fadeIn();
-                    $('#toTop').css('left', $('#sidebar').offset().left);
-                } else {
-                    $('#toTop').fadeOut();
-                }
-            } else {
-                $('#toTop').fadeOut();
-            }
-        }).on('click', '#toTop', function () {
-            $('body, html').animate({ scrollTop: 0 }, 600);
-        });
+    /**
+     * Add a scroll listener to the menu to hide/show the navigation links.
+     */
+    if (menu.length) {
+      $(window).on("scroll", function() {
+        var topDistance = menu.offset().top;
+
+        // hide only the navigation links on desktop
+        if (!nav.is(":visible") && topDistance < 50) {
+          nav.show();
+        } else if (nav.is(":visible") && topDistance > 100) {
+          nav.hide();
+        }
+
+        // on tablet, hide the navigation icon as well and show a "scroll to top
+        // icon" instead
+        if ( ! $( "#menu-icon" ).is(":visible") && topDistance < 50 ) {
+          $("#menu-icon-tablet").show();
+          $("#top-icon-tablet").hide();
+        } else if (! $( "#menu-icon" ).is(":visible") && topDistance > 100) {
+          $("#menu-icon-tablet").hide();
+          $("#top-icon-tablet").show();
+        }
+      });
     }
-    
-    // Task lists in markdown
-    $('.article-entry ul > li').each(function() {
-        var taskList = {
-            field: this.textContent.substring(0, 2),
-            check: function(str) {
-                var re = new RegExp(str);
-                return this.field.match(re);
-            }
+
+    /**
+     * Show mobile navigation menu after scrolling upwards,
+     * hide it again after scrolling downwards.
+     */
+    if ($( "#footer-post").length) {
+      var lastScrollTop = 0;
+      $(window).on("scroll", function() {
+        var topDistance = $(window).scrollTop();
+
+        if (topDistance > lastScrollTop){
+          // downscroll -> show menu
+          $("#footer-post").hide();
+        } else {
+          // upscroll -> hide menu
+          $("#footer-post").show();
         }
-        var string = [/\[ \]/, [/\[x\]/, "checked"]];
-        var checked = taskList.check(string[1][0]);
-        var unchecked = taskList.check(string[0]);
-        var $current = $(this);
-        function update(str, check) {
-            var click = ["disabled", ""];
-            $current.html($current.html().replace(
-              str, "<input type='checkbox' " + check + " " + click[1] + " >")
-            )
+        lastScrollTop = topDistance;
+
+        // close all submenu"s on scroll
+        $("#nav-footer").hide();
+        $("#toc-footer").hide();
+        $("#share-footer").hide();
+
+        // show a "navigation" icon when close to the top of the page, 
+        // otherwise show a "scroll to the top" icon
+        if (topDistance < 50) {
+          $("#actions-footer > #top").hide();
+        } else if (topDistance > 100) {
+          $("#actions-footer > #top").show();
         }
-        if (checked || unchecked) {
-            this.classList.add("task-list");
-            if (checked) {
-                update(string[1][0], string[1][1]);
-                this.classList.add("check");
-            } else {
-                update(string[0], "");
-            }
-        }
-    })
-    $(document).on('click', 'input[type="checkbox"]', function (event) {
-        event.preventDefault();
-    });
-})(jQuery);
+      });
+    }
+  }
+});
